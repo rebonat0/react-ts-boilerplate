@@ -1,0 +1,1 @@
+export const REMOVE_ALL_SPECIAL_CHARS_REGEX = /[^a-zA-Z0-9 ]/g
