@@ -70,7 +70,7 @@ module.exports = function (plop) {
         },
         {
           type: 'append',
-          path: '../src/routes/index.ts',
+          path: '../src/routes/index.tsx',
           pattern: new RegExp('// import_screen'),
           template: `
             import { {{lowerCase name}}ListScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-list.screen\';
@@ -80,7 +80,7 @@ module.exports = function (plop) {
         },
         {
           type: 'append',
-          path: '../src/routes/index.ts',
+          path: '../src/routes/index.tsx',
           pattern: new RegExp('// use_screen'),
           template: `
             { path: 'app/{{lowerCase name}}', element: <{{pascalCase name}}ListScreen />},
