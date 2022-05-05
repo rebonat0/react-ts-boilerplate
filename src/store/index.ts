@@ -4,7 +4,6 @@ import storage from "redux-persist/lib/storage";
 import immerPlugin from "@rematch/immer";
 
 // import_model
-
 import { user } from "./user.store";
 
 const persistConfig = {
@@ -21,6 +20,7 @@ export const store = init<RootModel>({
 });
 
 export interface RootModel extends Models<RootModel> {
+    // type_model
     user: typeof user,
 };
 

@@ -1,0 +1,61 @@
+import { produce } from 'immer';
+import type { RootModel } from '.';
+import { createModel } from "@rematch/core";
+import { PaginationFactory } from '../factory';
+import { {{pascalCase name}}Types } from '../types';
+
+export interface {{pascalCase name}}StoreProps {
+    {{lowerCase name}}: {{pascalCase name}}Types.Model,
+    pagination: PaginationFactory<{{pascalCase name}}Types.Model>,
+    loading: {
+        fetchById: boolean,
+        fetchMany: boolean,
+        destroy: boolean,
+        create: boolean,
+        update: boolean,
+    },
+};
+export const {{lowerCase name}} = createModel<RootModel>()({
+    state: {
+        {{lowerCase name}}: {} as {{pascalCase name}}Types.Model,
+        pagination: {} as PaginationFactory<{{pascalCase name}}Types.Model>,
+        loading: {
+            fetchById: false,
+            fetchMany: false,
+            destroy: false,
+            create: false,
+            update: false,
+        },
+    },
+    reducers: {
+        toggleLoading: (
+            store, prop: keyof {{pascalCase name}}StoreProps['loading'], v: boolean) => {
+                store.loading[prop] = v;
+            },
+        add{{pascalCase name}}: 
+            (store, {{lowerCase name}}: {{pascalCase name}}Types.Model) => {
+                store.pagination.items = [{{lowerCase name}}].concat(store.pagination.items);
+            },
+        update{{pascalCase name}}: 
+            (store, {{lowerCase name}}: {{pascalCase name}}Types.Model) => {
+                store.pagination.items = store.pagination.items?.map(i => {
+                    if (i.id === {{lowerCase name}}.id) {
+                        return {{lowerCase name}};
+                    }
+                    return i;
+                });
+            },
+        set{{pascalCase name}}: 
+            (store, {{lowerCase name}}: {{pascalCase name}}Types.Model) => {
+                store.{{lowerCase name}} = {{lowerCase name}};
+            },
+        setPagination: 
+            (store, pagination: PaginationFactory<{{pascalCase name}}Types.Model>) => {
+                store.pagination = pagination;
+            },
+        destroy{{pascalCase name}}: 
+            (store, id: string) => {
+                store.pagination.items = store.pagination.items.filter(i => i.id !== id);
+            },
+    },
+});

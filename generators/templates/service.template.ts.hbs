@@ -1,0 +1,173 @@
+import { AxiosError, AxiosResponse } from 'axios';
+import { RESPONSE_CODES } from '../constants/responseCodes.constants';
+import { api } from '../http';
+import { store } from '../store';
+import { DefaultRes, {{pascalCase name}}Types } from '../types';
+import { PaginatorFactory, PaginationFactory } from '../factory';
+
+export class {{pascalCase name}}Service {
+    public static readonly dispatch = store.dispatch.{{lowerCase name}};
+
+    public static async fetchById(
+        id: string, 
+        callback?: (err?: boolean, message?: string) => void,
+    ){
+        const { dispatch: { toggleLoading, set{{pascalCase name}} } } = {{pascalCase name}}Service;
+
+        try {
+            toggleLoading('fetchById', true);
+
+            const { data: { result, isValid, message }} = await api.get<
+                DefaultRes<{{pascalCase name}}Types.Model>,
+                AxiosResponse<DefaultRes<{{pascalCase name}}Types.Model>>
+            >(`/{{lowerCase name}}/${id}`);
+
+            toggleLoading('fetchById', false);
+            
+            set{{pascalCase name}}(result);
+
+            return callback && callback(isValid, RESPONSE_CODES[message]);
+        } catch (error: any) {
+            toggleLoading('fetchById', false);
+            if (error.response) {
+                const ERROR_CODE = (error as AxiosError<
+                    DefaultRes<{{pascalCase name}}Types.Model>
+                >).response?.data?.message;
+
+                return callback && callback(true, RESPONSE_CODES[ERROR_CODE!]);
+            }
+            return callback && callback(true, String(error));
+        }
+    }
+
+    public static async fetchMany(
+        dto: PaginatorFactory<Omit<{{pascalCase name}}Types.Model, 'id'>>,
+        callback?: (err?: boolean, message?: string) => void,
+    ): Promise<PaginationFactory<{{pascalCase name}}Types.Model> | void> {
+        const { dispatch: { toggleLoading, setPagination } } = {{pascalCase name}}Service;
+
+        try {
+            toggleLoading('fetchMany', true);
+
+            const { data: { result: { items, page, perPage, total }, isValid, message }} = await api.get<
+                DefaultRes<PaginationFactory<{{pascalCase name}}Types.Model>>,
+                AxiosResponse<DefaultRes<PaginationFactory<{{pascalCase name}}Types.Model>>>
+            >(`/{{lowerCase name}}?perPage=${dto.perPage}&page=${dto?.page}`);
+
+            toggleLoading('fetchMany', false);
+
+            setPagination({ items, page, perPage, total });
+
+            callback && callback(isValid, RESPONSE_CODES[message]);
+
+            return { items, page, perPage, total };
+        } catch (error: any) {
+            toggleLoading('fetchMany', false);
+            if (error.response) {
+                const ERROR_CODE = (error as AxiosError<
+                    DefaultRes<{{pascalCase name}}Types.Model>
+                >).response?.data?.message;
+
+                callback && callback(true, RESPONSE_CODES[ERROR_CODE!]);
+            }
+            callback && callback(true, String(error));
+        }
+    }
+
+    public static async create(
+        dto: {{pascalCase name}}Types.Model,
+        callback?: (err?: boolean, message?: string) => void,
+    ){
+        const { dispatch: { toggleLoading, add{{pascalCase name}} } } = {{pascalCase name}}Service;
+
+        try {
+            toggleLoading('create', true);
+
+            const { data: { isValid, message, result }} = await api.post<
+                DefaultRes<{{pascalCase name}}Types.Model>,
+                AxiosResponse<DefaultRes<{{pascalCase name}}Types.Model>>
+            >(`/{{lowerCase name}}`, dto);
+
+            toggleLoading('create', false);
+            
+            add{{pascalCase name}}(dto);
+
+            return callback && callback(isValid, RESPONSE_CODES[message]);
+        } catch (error: any) {
+            toggleLoading('create', false);
+            if (error.response) {
+                const ERROR_CODE = (error as AxiosError<
+                    DefaultRes<{{pascalCase name}}Types.Model>
+                >).response?.data?.message;
+
+                return callback && callback(true, RESPONSE_CODES[ERROR_CODE!]);
+            }
+            return callback && callback(true, String(error));
+        }
+    }
+
+    public static async update(
+        id: string, 
+        dto: {{pascalCase name}}Types.Model,
+        callback?: (err?: boolean, message?: string) => void,
+    ){
+        const { dispatch: { toggleLoading, update{{pascalCase name}} } } = {{pascalCase name}}Service;
+
+        try {
+            toggleLoading('update', true);
+
+            const { data: { isValid, message, result }} = await api.put<
+                DefaultRes<{{pascalCase name}}Types.Model>,
+                AxiosResponse<DefaultRes<{{pascalCase name}}Types.Model>>
+            >(`/{{lowerCase name}}/${id}`, dto);
+
+            toggleLoading('update', false);
+            
+            update{{pascalCase name}}(result);
+
+            return callback && callback(isValid, RESPONSE_CODES[message]);
+        } catch (error: any) {
+            toggleLoading('update', false);
+            if (error.response) {
+                const ERROR_CODE = (error as AxiosError<
+                    DefaultRes<{{pascalCase name}}Types.Model>
+                >).response?.data?.message;
+
+                return callback && callback(true, RESPONSE_CODES[ERROR_CODE!]);
+            }
+            return callback && callback(true, String(error));
+        }
+    }
+
+    public static async destroy(
+        id: string, 
+        callback?: (err?: boolean, message?: string) => void,
+    ){
+        const { dispatch: { toggleLoading, destroy{{pascalCase name}} } } = {{pascalCase name}}Service;
+
+        try {
+            toggleLoading('destroy', true);
+
+            const { data: { isValid, message }} = await api.delete<
+                DefaultRes<{{pascalCase name}}Types.Model>,
+                AxiosResponse<DefaultRes<{{pascalCase name}}Types.Model>>
+            >(`/{{lowerCase name}}/${id}`);
+
+            toggleLoading('destroy', false);
+            
+            destroy{{pascalCase name}}(id);
+
+            return callback && callback(isValid, RESPONSE_CODES[message]);
+        } catch (error: any) {
+            toggleLoading('fetchById', false);
+            if (error.response) {
+                const ERROR_CODE = (error as AxiosError<
+                    DefaultRes<{{pascalCase name}}Types.Model>
+                >).response?.data?.message;
+
+                return callback && callback(true, RESPONSE_CODES[ERROR_CODE!]);
+            }
+            return callback && callback(true, String(error));
+        }
+    }
+}

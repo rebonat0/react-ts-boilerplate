@@ -1,6 +1,6 @@
-import { produce } from 'immer';
 import type { RootModel } from '.';
 import { createModel } from "@rematch/core";
+
 import { PaginationFactory } from '../factory';
 import { UserTypes } from '../types';
 

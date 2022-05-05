@@ -55,7 +55,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate:module": "yarn plop --plopfile ./generators/module.plopfile.js"
   },
   "eslintConfig": {
     "extends": [
@@ -87,6 +88,7 @@
     "@types/lodash": "^4.14.178",
     "@types/numeral": "^2.0.2",
     "@types/react-input-mask": "^3.0.1",
-    "@types/react-lazy-load-image-component": "^1.5.2"
+    "@types/react-lazy-load-image-component": "^1.5.2",
+    "plop": "^3.1.0"
   }
 }
