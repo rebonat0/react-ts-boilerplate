@@ -7,6 +7,11 @@ import RecoverPassword from '../pages/recover-password';
 import Register from '../pages/register';
 import Home from '../pages/app';
 
+// import_screen
+import { UserListScreen } from '../pages/app/user/user-list.screen';
+import { UserEditScreen } from '../pages/app/user/user-edit.screen';
+import { UserCreateScreen } from '../pages/app/user/user-create.screen';
+
 const AppRoutes = () => { 
   const IS_AUTHENTICATED = false;
 
@@ -16,6 +21,10 @@ const AppRoutes = () => {
     children: [
       { element: <Navigate to="/app" replace /> },
       { path: 'app', element: <Home /> },
+      // use_screen
+      { path: 'app/user', element: <UserListScreen />},
+      { path: 'app/user/:id/update', element: <UserEditScreen />},
+      { path: 'app/user/new', element: <UserCreateScreen />},
     ]
   };
 

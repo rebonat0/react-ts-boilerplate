@@ -12,9 +12,10 @@ const sidebarConfig = [
     path: '/app',
     icon: getIcon(pieChart2Fill)
   },
+  // declare_menu_module
   {
-    title: 'Link Menu',
-    path: '/link1',
+    title: 'User',
+    path: '/app/user',
     icon: getIcon(layersFilll),
   },
   {

@@ -1,0 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { When } from 'react-if';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { GridActionsCellItem } from '@mui/x-data-grid-pro';
+import { DataGrid } from '@mui/x-data-grid';
+
+import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { ListColumnsFactory, PaginatorFactory } from '../../../factory';
+import { {{pascalCase name}}Types } from '../../../types';
+import Loading from '../../loading';
+import NoData from '../../no-data';
+import { Card } from '@mui/material';
+
+export const {{pascalCase name}}List: React.FC = () => {
+    const navigate = useNavigate();
+    const { pagination: { total, items }, loading } = useSelector((state: RootState) => state.{{lowerCase name}});
+
+    const [pagination, setPagination] = useState<PaginatorFactory<Omit<{{pascalCase name}}Types.Model, 'id'>>>({
+      page: 0,
+      perPage: 15,
+    });
+  
+    useEffect(() => {
+      {{pascalCase name}}Service.fetchMany({ ...pagination, page: pagination.page + 1 });
+    }, [pagination?.perPage, pagination?.page])
+
+    return (
+        <>
+            <When condition={loading?.fetchMany}>
+                <Loading />
+            </When>
+
+            <When condition={!loading?.fetchMany && total === 0}>
+                <NoData 
+                    buttonText='new {{lowerCase name}}'
+                    onClick={() => navigate('/app/{{lowerCase name}}/new')}
+                    title={'No data found.'}
+                    description={'Theres no created {{lowerCase name}} to show.'}
+                />
+            </When>
+
+            <When condition={!loading.fetchMany && total > 0}>
+                <Card>
+                    <DataGrid<{{pascalCase name}}Types.Model> 
+                        columns={[
+                            ...new ListColumnsFactory<{{pascalCase name}}Types.Model>(items[0]).generate(),
+                            {
+                                headerName: 'actions',
+                                type: 'actions',
+                                field: 'actions',
+                                getActions: ({ row: { id }}) =>  [
+                                    <GridActionsCellItem 
+                                        label='Editar' 
+                                        icon={<EditIcon />} 
+                                        onClick={() => navigate(`/app/{{lowerCase name}}/${id}/update`)}
+                                    />,
+                                    <GridActionsCellItem 
+                                        label='Deletar' 
+                                        icon={<DeleteIcon />} 
+                                        onClick={() => {
+                                        }} 
+                                    />,
+                                ],
+                            }
+                        ]}
+                        rows={items || []}
+                        page={pagination?.page}
+                        pageSize={pagination?.perPage}
+                        disableSelectionOnClick={true}
+                        rowsPerPageOptions={[5, 15, 25, 50]}
+                        pagination={true}
+                        autoHeight={true}
+                        onPageChange={(p) => setPagination(pag => ({ ...pag, page: p }))}
+                        onPageSizeChange={(p) => setPagination(pag => ({ ...pag, perPage: p }))}
+                        paginationMode='server'
+                        loading={loading?.fetchMany}
+                        rowCount={total}
+                        disableColumnSelector={true}
+                        disableColumnMenu={true}
+                    />
+                </Card>
+            </When>
+        </>
+    )
+}

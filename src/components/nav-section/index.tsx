@@ -150,7 +150,7 @@ interface SectionProps {
 
 const NavSection: React.FC<SectionProps> = ({ navConfig, ...other}) => {
     const { pathname } = useLocation();
-    const match = (path: any) => (path ? !!matchPath({ path, end: false }, pathname) : false);
+    const match = (path: any) => pathname === path;
 
     return (
         <Box {...other}>
