@@ -73,9 +73,9 @@ module.exports = function (plop) {
           path: '../src/routes/index.tsx',
           pattern: new RegExp('// import_screen'),
           template: `
-            import { {{lowerCase name}}ListScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-list.screen\';
-            import { {{lowerCase name}}EditScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-edit.screen\';
-            import { {{lowerCase name}}CreateScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-create.screen\';
+          import { {{pascalCase name}}ListScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-list.screen\';
+          import { {{pascalCase name}}EditScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-edit.screen\';
+          import { {{pascalCase name}}CreateScreen } from \'../pages/app/{{lowerCase name}}/{{lowerCase name}}-create.screen\';
           `,
         },
         {
@@ -91,7 +91,7 @@ module.exports = function (plop) {
         {
           type: 'append',
           path: '../src/layout/dashboard/sidebar-config.tsx',
-          pattern: new RegExp('// use_screen'),
+          pattern: new RegExp('// declare_menu_module'),
           template: `
             {
               title: '{{pascalCase name}}',
