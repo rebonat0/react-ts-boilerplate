@@ -5,28 +5,64 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { GridActionsCellItem } from '@mui/x-data-grid-pro';
 import { DataGrid } from '@mui/x-data-grid';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+import { Card } from '@mui/material';
+import { toast } from 'react-toastify';
 
 import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { ListColumnsFactory, PaginatorFactory } from '../../../factory';
+import { PaginatorFactory } from '../../../factory';
 import { {{pascalCase name}}Types } from '../../../types';
 import Loading from '../../loading';
 import NoData from '../../no-data';
-import { Card } from '@mui/material';
+import { {{constantCase}}_COLUMNS } from '../../../builders/index.ts';
+import { AreYouSureModal } from '../..';
 
 export const {{pascalCase name}}List: React.FC = () => {
     const navigate = useNavigate();
     const { pagination: { total, items }, loading } = useSelector((state: RootState) => state.{{lowerCase name}});
+    const [{{lowerCase name}}ToDelete, set{{pascalCase name}}ToDelete] = useState<{{pascalCase name}}Types.Model>({} as {{pascalCase name}}Types.Model);
+
+    const [deleteModal, setDeleteModal] = useState(false);
 
     const [pagination, setPagination] = useState<PaginatorFactory<Omit<{{pascalCase name}}Types.Model, 'id'>>>({
       page: 0,
       perPage: 15,
     });
   
+    const onDelete = async () => {
+        await {{pascalCase name}}Service.destroy(
+            {{lowerCase name}}ToDelete?.id,
+            (err, msg) => {
+                setDeleteModal(false);
+                set{{pascalCase name}}ToDelete({} as {{pascalCase name}}Types.Model);
+
+                if (err) {
+                    toast(
+                        msg, 
+                        {
+                            autoClose: 1500,
+                            type: 'error',
+                        }
+                    )
+                    return;
+                } 
+
+                toast(
+                    msg, 
+                    {
+                        autoClose: 1500,
+                        type: 'success',
+                    }
+                );
+            }
+        );
+    }
+
     useEffect(() => {
       {{pascalCase name}}Service.fetchMany({ ...pagination, page: pagination.page + 1 });
-    }, [pagination?.perPage, pagination?.page])
+    }, [pagination?.perPage, pagination?.page]);
 
     return (
         <>
@@ -34,38 +70,52 @@ export const {{pascalCase name}}List: React.FC = () => {
                 <Loading />
             </When>
 
-            <When condition={!loading?.fetchMany && items?.length < 1}>
+            <When condition={loading?.fetchMany !== true && items?.length < 1}>
                 <NoData 
-                    buttonText='new {{lowerCase name}}'
+                    buttonText='Adicionar'
                     onClick={() => navigate('/app/{{lowerCase name}}/new')}
-                    title={'No data found.'}
-                    description={'Theres no created {{lowerCase name}} to show.'}
+                    title={'Nenhum dado foi encontrado.'}
+                    description={'Aparentemente, você não cadastrou nenhum item nessa entidade.'}
                 />
             </When>
 
             <When condition={!loading.fetchMany && items?.length > 0}>
                 <Card>
-                    <DataGrid<{{pascalCase name}}Types.Model> 
+                    <DataGrid<{{pascalCase name}}Types.Model>
                         columns={[
-                            ...new ListColumnsFactory<{{pascalCase name}}Types.Model>(items?.length > 0 ? items[0] : {} as {{pascalCase name}}Types.Model).generate(),
+                            ...{{constantCase}}_COLUMNS,
                             {
-                                headerName: 'actions',
+                                field: 'Data de criação',
+                                headerName: 'Created At',
+                                valueGetter: ({ row: { createdAt }}) => `${dayjs(createdAt).format('DD/MM/YYYY HH:MM')}`,
+                                width: 250,
+                            },
+                            {
+                                field: 'Última atualização',
+                                headerName: 'Updated At',
+                                valueGetter: ({ row: { updatedAt }}) => `${dayjs(updatedAt).format('DD/MM/YYYY HH:MM')}`,
+                                width: 250,
+                            },
+                            {
+                                headerName: 'Ações',
                                 type: 'actions',
                                 field: 'actions',
-                                getActions: ({ row: { id }}) =>  [
+                                getActions: ({ row }) =>  [
                                     <GridActionsCellItem 
                                         label='Editar' 
                                         icon={<EditIcon />} 
-                                        onClick={() => navigate(`/app/{{lowerCase name}}/${id}/update`)}
+                                        onClick={() => navigate(`/app/{{lowerCase name}}/${row?.id}/update`)}
                                     />,
                                     <GridActionsCellItem 
                                         label='Deletar' 
                                         icon={<DeleteIcon />} 
                                         onClick={() => {
+                                            set{{pascalCase name}}ToDelete(row);
+                                            setDeleteModal(true);
                                         }} 
                                     />,
                                 ],
-                            }
+                            },
                         ]}
                         rows={items || []}
                         page={pagination?.page}
@@ -84,6 +134,18 @@ export const {{pascalCase name}}List: React.FC = () => {
                     />
                 </Card>
             </When>
+
+            <AreYouSureModal 
+                title={'Tem certeza que deseja excluir esse item?'}
+                description={'Você perderá esse registro permanentemente.'}
+                onHide={() => {
+                    set{{pascalCase name}}ToDelete({} as {{pascalCase name}}Types.Model);
+                    setDeleteModal(false);
+                }}
+                loading={loading?.destroy}
+                onConfirm={onDelete}
+                visible={deleteModal}
+            />
         </>
     )
 }
