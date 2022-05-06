@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
-import layersFilll from '@iconify-icons/eva/layers-fill';
 import gridFill from '@iconify-icons/eva/grid-fill';
 
 const getIcon = (name: any) => <Icon icon={name} width={22} height={22} />;
@@ -13,11 +12,6 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   // declare_menu_module
-  {
-    title: 'User',
-    path: '/app/user',
-    icon: getIcon(layersFilll),
-  },
   {
     title: 'Nested Menu',
     icon: getIcon(shoppingBagFill),

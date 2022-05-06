@@ -85,14 +85,14 @@ export const {{pascalCase name}}List: React.FC = () => {
                         columns={[
                             ...{{constantCase}}_COLUMNS,
                             {
-                                field: 'Data de criação',
-                                headerName: 'Created At',
+                                field: 'createdAt',
+                                headerName: 'Data de criação',
                                 valueGetter: ({ row: { createdAt }}) => `${dayjs(createdAt).format('DD/MM/YYYY HH:MM')}`,
                                 width: 250,
                             },
                             {
-                                field: 'Última atualização',
-                                headerName: 'Updated At',
+                                field: 'updatedAt',
+                                headerName: 'Última atualização',
                                 valueGetter: ({ row: { updatedAt }}) => `${dayjs(updatedAt).format('DD/MM/YYYY HH:MM')}`,
                                 width: 250,
                             },
