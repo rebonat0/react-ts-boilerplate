@@ -34,7 +34,7 @@ export const {{pascalCase name}}List: React.FC = () => {
                 <Loading />
             </When>
 
-            <When condition={!loading?.fetchMany && total === 0}>
+            <When condition={!loading?.fetchMany && items?.length < 1}>
                 <NoData 
                     buttonText='new {{lowerCase name}}'
                     onClick={() => navigate('/app/{{lowerCase name}}/new')}
@@ -43,11 +43,11 @@ export const {{pascalCase name}}List: React.FC = () => {
                 />
             </When>
 
-            <When condition={!loading.fetchMany && total > 0}>
+            <When condition={!loading.fetchMany && items?.length > 0}>
                 <Card>
                     <DataGrid<{{pascalCase name}}Types.Model> 
                         columns={[
-                            ...new ListColumnsFactory<{{pascalCase name}}Types.Model>(items[0]).generate(),
+                            ...new ListColumnsFactory<{{pascalCase name}}Types.Model>(items?.length > 0 ? items[0] : {} as {{pascalCase name}}Types.Model).generate(),
                             {
                                 headerName: 'actions',
                                 type: 'actions',
