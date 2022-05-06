@@ -11,3 +11,4 @@ export { default as SentIcon } from './assets/sent-icon';
 export { default as NoData } from './no-data';
 export { default as Loading } from './loading';
 export { default as Iconify } from './iconify';
+export { default as AreYouSureModal } from './are-you-sure-modal';
