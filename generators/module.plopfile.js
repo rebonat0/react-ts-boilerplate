@@ -96,7 +96,7 @@ module.exports = function (plop) {
             {
               title: '{{pascalCase name}}',
               path: '/app/{{lowerCase name}}',
-              icon: getIcon(layersFilll),
+              icon: getIcon(gridFill),
             },
           `,
         },
