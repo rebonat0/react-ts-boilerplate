@@ -16,7 +16,7 @@ import { PaginatorFactory } from '../../../factory';
 import { {{pascalCase name}}Types } from '../../../types';
 import Loading from '../../loading';
 import NoData from '../../no-data';
-import { {{constantCase}}_COLUMNS } from '../../../builders/index.ts';
+import { {{constantCase name}}_COLUMNS } from '../../../builders';
 import { AreYouSureModal } from '../..';
 
 export const {{pascalCase name}}List: React.FC = () => {
@@ -83,7 +83,7 @@ export const {{pascalCase name}}List: React.FC = () => {
                 <Card>
                     <DataGrid<{{pascalCase name}}Types.Model>
                         columns={[
-                            ...{{constantCase}}_COLUMNS,
+                            ...{{constantCase name}}_COLUMNS,
                             {
                                 field: 'createdAt',
                                 headerName: 'Data de criação',
