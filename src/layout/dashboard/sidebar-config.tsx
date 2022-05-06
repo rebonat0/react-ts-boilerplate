@@ -12,6 +12,13 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   // declare_menu_module
+
+            {
+              title: 'User',
+              path: '/app/user',
+              icon: getIcon(gridFill),
+            },
+          
   {
     title: 'Nested Menu',
     icon: getIcon(shoppingBagFill),
