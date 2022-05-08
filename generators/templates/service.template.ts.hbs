@@ -10,7 +10,7 @@ export class {{pascalCase name}}Service {
 
     public static async fetchById(
         id: string, 
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, set{{pascalCase name}} } } = {{pascalCase name}}Service;
 
@@ -42,7 +42,7 @@ export class {{pascalCase name}}Service {
 
     public static async fetchMany(
         dto: PaginatorFactory<Omit<{{pascalCase name}}Types.Model, 'id'>>,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ): Promise<PaginationFactory<{{pascalCase name}}Types.Model> | void> {
         const { dispatch: { toggleLoading, setPagination } } = {{pascalCase name}}Service;
 
@@ -76,7 +76,7 @@ export class {{pascalCase name}}Service {
 
     public static async create(
         dto: {{pascalCase name}}Types.Model,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, add{{pascalCase name}} } } = {{pascalCase name}}Service;
 
@@ -90,7 +90,7 @@ export class {{pascalCase name}}Service {
 
             toggleLoading('create', false);
             
-            add{{pascalCase name}}(dto);
+            add{{pascalCase name}}(result);
 
             return callback && callback(isValid, RESPONSE_CODES[message]);
         } catch (error: any) {
@@ -109,7 +109,7 @@ export class {{pascalCase name}}Service {
     public static async update(
         id: string, 
         dto: {{pascalCase name}}Types.Model,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, update{{pascalCase name}} } } = {{pascalCase name}}Service;
 
@@ -141,7 +141,7 @@ export class {{pascalCase name}}Service {
 
     public static async destroy(
         id: string, 
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, destroy{{pascalCase name}} } } = {{pascalCase name}}Service;
 

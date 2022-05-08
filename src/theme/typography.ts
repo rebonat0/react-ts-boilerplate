@@ -22,7 +22,7 @@ function responsiveFontSizes({ sm, md, lg }: ResponsiveProps) {
     };
 }
   
-const FONT_PRIMARY = 'Montserrat';
+const FONT_PRIMARY = 'Poppins';
   
 const typography = {
     fontFamily: FONT_PRIMARY,

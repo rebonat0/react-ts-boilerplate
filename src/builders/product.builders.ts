@@ -1,3 +1,5 @@
+import { InputForm } from "../types";
+
 export const PRODUCT_COLUMNS = [
     {
         field: 'name',
@@ -8,5 +10,32 @@ export const PRODUCT_COLUMNS = [
         field: 'price',
         headerName: 'Preço',
         width: 250,
+    },
+];
+
+export const PROUCT_FORM_INPUTS: InputForm[] = [
+    {
+        label: 'Nome',
+        id: 'name',
+        type: 'text',
+        required: true,
+        placeholder: 'Nome',
+        grid: {
+            sm: 12,
+            md: 12,
+            lb: 12,
+        },
+    },
+    {
+        label: 'Preço',
+        id: 'price',
+        type: 'number',
+        required: true,
+        placeholder: 'Preço',
+        grid: {
+            sm: 12,
+            md: 12,
+            lb: 12,
+        },
     },
 ];

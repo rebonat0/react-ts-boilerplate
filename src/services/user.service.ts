@@ -10,7 +10,7 @@ export class UserService {
 
     public static async fetchById(
         id: string, 
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, setUser } } = UserService;
 
@@ -42,7 +42,7 @@ export class UserService {
 
     public static async fetchMany(
         dto: PaginatorFactory<Omit<UserTypes.Model, 'id'>>,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ): Promise<PaginationFactory<UserTypes.Model> | void> {
         const { dispatch: { toggleLoading, setPagination } } = UserService;
 
@@ -76,7 +76,7 @@ export class UserService {
 
     public static async create(
         dto: UserTypes.Model,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, addUser } } = UserService;
 
@@ -90,7 +90,7 @@ export class UserService {
 
             toggleLoading('create', false);
             
-            addUser(dto);
+            addUser(result);
 
             return callback && callback(isValid, RESPONSE_CODES[message]);
         } catch (error: any) {
@@ -109,7 +109,7 @@ export class UserService {
     public static async update(
         id: string, 
         dto: UserTypes.Model,
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, updateUser } } = UserService;
 
@@ -141,7 +141,7 @@ export class UserService {
 
     public static async destroy(
         id: string, 
-        callback?: (err?: boolean, message?: string) => void,
+        callback?: (isValid?: boolean, message?: string) => void,
     ){
         const { dispatch: { toggleLoading, destroyUser } } = UserService;
 

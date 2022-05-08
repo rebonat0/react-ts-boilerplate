@@ -10,14 +10,14 @@ import { useSelector } from 'react-redux';
 import { Card } from '@mui/material';
 import { toast } from 'react-toastify';
 
-import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
-import { RootState } from '../../../store';
-import { PaginatorFactory } from '../../../factory';
-import { {{pascalCase name}}Types } from '../../../types';
 import Loading from '../../loading';
 import NoData from '../../no-data';
-import { {{constantCase name}}_COLUMNS } from '../../../builders';
+import { RootState } from '../../../store';
+import { PaginatorFactory } from '../../../factory';
 import { AreYouSureModal } from '../..';
+import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
+import { {{pascalCase name}}Types } from '../../../types';
+import { {{constantCase name}}_COLUMNS } from '../../../builders';
 
 export const {{pascalCase name}}List: React.FC = () => {
     const navigate = useNavigate();

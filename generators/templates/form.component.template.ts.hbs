@@ -1,0 +1,106 @@
+import React, { useEffect } from 'react';
+import * as Yup from 'yup';
+import { useFormik, Form, FormikProvider } from 'formik';
+import { Stack } from "@mui/material";
+import { useSelector } from "react-redux";
+import { LoadingButton } from "@mui/lab";
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+
+import { RootState } from '../../../store';
+import FormBuilder from '../../form-builder';
+import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
+import { {{pascalCase name}}Types } from '../../../types';
+import { {{constantCase name}}_FORM_INPUTS } from '../../../builders';
+
+interface Props {
+    isFromEdit?: boolean,
+}
+
+const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
+    const navigate = useNavigate();
+
+    const { {{lowerCase name}}, loading } = useSelector((state: RootState) => state.{{lowerCase name}});
+
+    const afterSubmit = (isValid?: boolean, msg?: string) => {
+        if (!isValid) {
+            toast(
+                msg,
+                {
+                    autoClose: 1500,
+                    type: 'error',
+                }
+            );
+            return
+        }
+
+        toast(
+            msg,
+            {
+                autoClose: 1500,
+                type: 'success',
+            },
+        );
+
+        navigate('/app/{{lowerCase name}}');
+    }
+
+    const VALIDATION_SCHEMA = Yup.object().shape({});
+
+    const formik = useFormik<{{pascalCase name}}Types.Model>({
+        initialValues: {} as {{pascalCase name}}Types.Model,
+        validationSchema: VALIDATION_SCHEMA,
+        onSubmit: async (values) => {
+            if (!isFromEdit) {
+                await {{pascalCase name}}Service.create(values, (isValid, msg) => {
+                    afterSubmit(isValid, msg);
+                });
+            } else {
+                await {{pascalCase name}}Service.update(values.id, values, (isValid, msg) => {
+                    afterSubmit(isValid, msg);
+                });
+            }
+        }
+    });
+
+    const { 
+        errors,
+        touched,
+        handleSubmit,
+        getFieldProps,
+    } = formik;
+
+    useEffect(() => {
+        if (isFromEdit) {
+            formik.setValues({
+                ...{{lowerCase name}},
+            });
+        }
+    }, [{{lowerCase name}}]);
+
+    return (
+        <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <Stack spacing={3}>
+                    <FormBuilder 
+                        errors={errors}
+                        touched={touched}
+                        inputs={{{constantCase name}}_FORM_INPUTS}
+                        getFieldProps={getFieldProps}
+                    />
+                </Stack>
+                <LoadingButton
+                    fullWidth
+                    type='submit'
+                    variant='contained'
+                    loading={loading?.create || loading?.update}
+                    sx={{ mt: 2 }}
+                >
+                    {isFromEdit ? 'Alterar' : 'Criar'}
+                </LoadingButton>
+            </Form>
+        </FormikProvider>
+    )
+}
+
+export default {{pascalCase name}}Form;

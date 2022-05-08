@@ -55,6 +55,11 @@ module.exports = function (plop) {
         },
         {
           type: 'add',
+          path: '../src/components/forms/{{lowerCase name}}-form/index.tsx',
+          templateFile: 'templates/form.component.template.ts.hbs',
+        },
+        {
+          type: 'add',
           path: '../src/pages/app/{{lowerCase name}}/{{lowerCase name}}-create.screen.tsx',
           templateFile: 'templates/create.module.page.template.ts.hbs',
         },

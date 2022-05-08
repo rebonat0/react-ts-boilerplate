@@ -14,7 +14,7 @@ const persistConfig = {
 export const store = init<RootModel>({ 
     models: { 
         // use_model
-    user,
+        user,
     }, 
     plugins: [persistPlugin(persistConfig), immerPlugin()],
 });

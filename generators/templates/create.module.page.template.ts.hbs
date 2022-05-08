@@ -1,9 +1,24 @@
 import React from 'react';
+import { Card, Container, Stack, Typography } from '@mui/material';
+
+import { Page } from '../../../components';
+import {{pascalCase name}}Form from '../../../components/forms/{{lowerCase name}}-form';
 
 interface Props {}
 
 export const {{pascalCase name}}CreateScreen: React.FC<Props> = () => {
     return (
-        <p>Criar {{lowerCase name}}</p>
+        <Page title="Cadastrar {{lowerCase name}}">
+            <Container>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        Criar um novo {{lowerCase name}}
+                    </Typography>
+                </Stack>
+                <Card sx={{ p: 3 }}>
+                    <{{pascalCase name}}Form isFromEdit={false} />
+                </Card>
+            </Container>
+        </Page>
     )
 }

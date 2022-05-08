@@ -1,9 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Card, Container, Stack, Typography } from '@mui/material';
+import { When } from 'react-if';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { Loading, Page } from '../../../components';
+import {{pascalCase name}}Form from '../../../components/forms/{{lowerCase name}}-form';
+import { {{pascalCase name}}Service } from '../../../services/{{lowerCase name}}.service';
+import { RootState } from '../../../store';
 
 interface Props {}
 
 export const {{pascalCase name}}EditScreen: React.FC<Props> = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { loading } = useSelector((state: RootState) => state.{{lowerCase name});
+
+    useEffect(() => {
+        {{pascalCase name}}Service.fetchById(String(id), (isValid, msg) => {
+            if (!isValid) {
+                toast(
+                    msg,
+                    {
+                        autoClose: 1500,
+                        type: 'error',
+                    }
+                );
+                navigate('/app/{{lowerCase name}}');
+            }
+        });
+    }, [id]);
+
     return (
-        <p>Alterar {{lowerCase name}}</p>
+        <Page title="Alterar {{lowerCase name}}">
+            <Container>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        Alterar {{lowerCase name}}
+                    </Typography>
+                </Stack>
+                <When condition={loading?.fetchById}>
+                    <Loading />
+                </When>
+                <When condition={!loading?.fetchById}>
+                    <Card sx={{ p: 3 }}>
+                        <{{pascalCase name}}Form isFromEdit={true} />
+                    </Card>
+                </When>
+            </Container>
+        </Page>
     )
 }

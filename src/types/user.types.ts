@@ -1,8 +1,11 @@
 export namespace UserTypes {
     export interface Model {
         id: string,
-        createdAt: Date,
-        updatedAt: Date,
-        deleted: boolean,
+        firstName: string,
+        lastName: string,
+        email: string,
+        createdAt?: Date,
+        updatedAt?: Date,
+        deleted?: boolean,
     }
 }
