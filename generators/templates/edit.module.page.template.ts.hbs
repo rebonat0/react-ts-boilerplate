@@ -15,7 +15,7 @@ interface Props {}
 export const {{pascalCase name}}EditScreen: React.FC<Props> = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { loading } = useSelector((state: RootState) => state.{{lowerCase name});
+    const { loading } = useSelector((state: RootState) => state.{{lowerCase name}});
 
     useEffect(() => {
         {{pascalCase name}}Service.fetchById(String(id), (isValid, msg) => {
@@ -44,7 +44,7 @@ export const {{pascalCase name}}EditScreen: React.FC<Props> = () => {
                     <Loading />
                 </When>
                 <When condition={!loading?.fetchById}>
-                    <Card sx={{ p: 3 }}>
+                    <Card sx={ { p: 3 } }>
                         <{{pascalCase name}}Form isFromEdit={true} />
                     </Card>
                 </When>

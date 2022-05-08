@@ -34,11 +34,11 @@ export const {{pascalCase name}}List: React.FC = () => {
     const onDelete = async () => {
         await {{pascalCase name}}Service.destroy(
             {{lowerCase name}}ToDelete?.id,
-            (err, msg) => {
+            (isValid, msg) => {
                 setDeleteModal(false);
                 set{{pascalCase name}}ToDelete({} as {{pascalCase name}}Types.Model);
 
-                if (err) {
+                if (!isValid) {
                     toast(
                         msg, 
                         {

@@ -34,6 +34,8 @@ const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
             return
         }
 
+        navigate('/app/{{lowerCase name}}');
+
         toast(
             msg,
             {
@@ -41,8 +43,6 @@ const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
                 type: 'success',
             },
         );
-
-        navigate('/app/{{lowerCase name}}');
     }
 
     const VALIDATION_SCHEMA = Yup.object().shape({});
@@ -76,7 +76,7 @@ const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
                 ...{{lowerCase name}},
             });
         }
-    }, [{{lowerCase name}}]);
+    }, [ {{lowerCase name}} ]);
 
     return (
         <FormikProvider value={formik}>
@@ -85,7 +85,7 @@ const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
                     <FormBuilder 
                         errors={errors}
                         touched={touched}
-                        inputs={{{constantCase name}}_FORM_INPUTS}
+                        inputs={[...{{constantCase name}}_FORM_INPUTS]}
                         getFieldProps={getFieldProps}
                     />
                 </Stack>
@@ -94,7 +94,7 @@ const {{pascalCase name}}Form: React.FC<Props> = ({ isFromEdit = false }) => {
                     type='submit'
                     variant='contained'
                     loading={loading?.create || loading?.update}
-                    sx={{ mt: 2 }}
+                    sx={ { mt: 2 } }
                 >
                     {isFromEdit ? 'Alterar' : 'Criar'}
                 </LoadingButton>

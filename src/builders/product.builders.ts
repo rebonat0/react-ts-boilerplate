@@ -13,7 +13,7 @@ export const PRODUCT_COLUMNS = [
     },
 ];
 
-export const PROUCT_FORM_INPUTS: InputForm[] = [
+export const PRODUCT_FORM_INPUTS: InputForm[] = [
     {
         label: 'Nome',
         id: 'name',
